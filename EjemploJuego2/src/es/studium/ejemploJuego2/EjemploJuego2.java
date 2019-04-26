@@ -8,8 +8,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.util.Random;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 
 public class EjemploJuego2 extends Frame implements WindowListener, MouseListener
@@ -53,6 +56,7 @@ public class EjemploJuego2 extends Frame implements WindowListener, MouseListene
 //		g.fillRect(0, 0, 220, 220);
 		if(alto==1) {			
 		imagenSusto.paintIcon(this, g, 10, 20);
+		audio("susto.wav");
 		setSize(390,280);
 		}
 		
@@ -61,6 +65,28 @@ public class EjemploJuego2 extends Frame implements WindowListener, MouseListene
 		g.drawString("Puntuación: "+puntuacion,120,50);
 		g.drawString("Vidas: "+vidas,50,50);
 		}
+	public static void audio(String file) {
+        try {
+            
+            // Se obtiene un Clip de sonido
+            Clip sonido = AudioSystem.getClip();
+            
+            // Se carga con un fichero wav
+            sonido.open(AudioSystem.getAudioInputStream(new File(file)));
+            
+            // Comienza la reproducción
+            sonido.start();
+            
+            // Espera mientras se esté reproduciendo.
+            while (sonido.isRunning())
+                Thread.sleep(1000);
+            
+            // Se cierra el clip.
+            sonido.close();
+        } catch (Exception e) {
+            System.out.println("" + e);
+        }
+    }
 	public void windowActivated(WindowEvent we) {
 		
 	}
@@ -117,6 +143,7 @@ public class EjemploJuego2 extends Frame implements WindowListener, MouseListene
 				}
 			}
 	}
+
 	@Override
 	public void mouseEntered(MouseEvent arg0)
 	{
